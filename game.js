@@ -22,6 +22,44 @@
 // ]
 //
 // Score 300 (perfect game):
-// const frames = [
-//   [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 10, 10]
-// ]
+const frames = [
+  [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 0], [10, 10, 10]
+]
+
+// 
+function reduceFunc(arr) {
+  return arr.reduce((score1, score2) => score1 + score2)
+}
+
+function score(frames) {
+  const totalScore = frames.map(reduceFunc)
+
+  // for spare and strike
+  for (let i = 0; i < frames.length; i++) {
+
+    if (i < 9 && totalScore[i] === 10 && frames[i][0] !== 10 && frames[i + 1][0] !== 10) {
+      totalScore.push(frames[i + 1][0])
+    }
+    else if (i < 9 && frames[i][0] === 10 && frames[i + 1][0] !== 10) {
+      totalScore.push(frames[i + 1][0])
+      totalScore.push(frames[i + 1][1])
+    }
+    else if (i < 8 && frames[i][0] === 10 && frames[i + 1][0] === 10) {
+      totalScore.push(frames[i + 1][0])
+      totalScore.push(frames[i + 2][0])
+    }
+    // for frame 10
+    else if (i === 9 && frames[i][0] === 10 && frames[i - 1][0] === 10) {
+      totalScore.push(frames[i][0])
+      totalScore.push(frames[i][1])
+    }
+    // console.log(totalScore)
+  }
+
+  const finalTotal = totalScore.reduce((score1, score2) => score1 + score2)
+  // console.log(newTotal)
+
+  console.log(finalTotal)
+}
+score(frames)
+
